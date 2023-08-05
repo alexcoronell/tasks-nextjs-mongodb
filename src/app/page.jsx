@@ -1,5 +1,5 @@
-import { connectDB } from "@/utils/monsoose";
-import Task from "@/models/Task";
+import { connectDB } from "../utils/monsoose";
+import Task from "../models/Task";
 import TaskCard from "../components/TaskCard";
 
 async function loadTasks() {

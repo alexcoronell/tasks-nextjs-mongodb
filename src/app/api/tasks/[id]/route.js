@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "@/utils/monsoose";
-import Task from "@/models/Task";
+import { connectDB } from "../../../../utils/monsoose";
+import Task from "../../../../models/Task";
 
 export async function GET(request, { params }) {
     connectDB();
