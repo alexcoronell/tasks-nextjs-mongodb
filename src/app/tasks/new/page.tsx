@@ -94,13 +94,13 @@ function FormPage() {
     if (params.id) {
       getTask();
     }
-  });
+  }, []);
 
   return (
     <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
       <form onSubmit={handleSubmit}>
         <header className="flex justify-between">
-          <h1 className="font-bold text-3xl">
+          <h1 className="font-bold text-3xl text-white">
             {!params.id ? "Create Task" : "Edit Task"}
           </h1>
 
@@ -118,7 +118,7 @@ function FormPage() {
           placeholder="Title"
           onChange={handleChange}
           value={newTask.title}
-          className="bg-gray-800 border-2 w-full p-4 rounded-lg my-4"
+          className="bg-gray-800 border-2 w-full p-4 rounded-lg my-4 text-white"
         />
         <textarea
           name="description"
@@ -126,7 +126,7 @@ function FormPage() {
           rows={3}
           onChange={handleChange}
           value={newTask.description}
-          className="bg-gray-800 border-2 w-full p-4 rounded-lg my-4"
+          className="bg-gray-800 border-2 w-full p-4 rounded-lg my-4 text-white"
         ></textarea>
         <button
           type="submit"
