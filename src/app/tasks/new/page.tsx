@@ -24,7 +24,16 @@ function FormPage() {
     router.refresh();
   };
 
-  const createTask = async (newTask) => {
+  const getTask = async () => {
+    const res = await fetch(`/api/tasks/${params.id}`);
+    const data = await res.json();
+    setNewTask({
+      title: data.title,
+      description: data.description,
+    });
+  };
+
+  const createTask = async () => {
     try {
       const res = await fetch("/api/tasks", {
         method: "POST",
@@ -43,6 +52,25 @@ function FormPage() {
     }
   };
 
+  const updateTask = async () => {
+    try {
+      const res = await fetch(`/api/tasks/${params.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(newTask),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      const data = res.json();
+      if(res.status === 200) {
+        router.push("/");
+        router.refresh();
+      }
+    } catch(error) {
+      console.error(error)
+    }
+  };
+
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       fetch(`/api/tasks/${params.id}`, {
@@ -55,12 +83,17 @@ function FormPage() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(newTask);
-    createTask(newTask);
+    if (!params.id) {
+      createTask();
+    } else {
+      updateTask()
+    }
   };
 
   useEffect(() => {
-    console.log(params);
+    if (params.id) {
+      getTask();
+    }
   });
 
   return (
@@ -84,6 +117,7 @@ function FormPage() {
           name="title"
           placeholder="Title"
           onChange={handleChange}
+          value={newTask.title}
           className="bg-gray-800 border-2 w-full p-4 rounded-lg my-4"
         />
         <textarea
@@ -91,13 +125,14 @@ function FormPage() {
           placeholder="Description"
           rows={3}
           onChange={handleChange}
+          value={newTask.description}
           className="bg-gray-800 border-2 w-full p-4 rounded-lg my-4"
         ></textarea>
         <button
           type="submit"
           className="bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded-lg"
         >
-          Save
+          {!params.id ? "Save" : "Update"}
         </button>
         <button
           type="button"
